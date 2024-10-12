@@ -1,7 +1,7 @@
 import { Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { UserService } from './providers/users.service';
 import { GetUsersParamDto } from './dtos/get-users-param.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("users")
 @Controller('users')
@@ -10,6 +10,27 @@ export class UsersController {
     constructor(
         private readonly userService:UserService
     ){}
+
+    @ApiOperation({
+        summary: 'Fetches a list of registered users on the application.'
+      })
+    @ApiQuery({
+        name: 'limit',
+        type: String,
+        description: 'The upper limit of pages you want the pagination to return',
+        required: false,
+      })
+    @ApiQuery({
+        name: 'page',
+        type: String,
+        description:
+          'The position of the page number that you want the API to return',
+        required: false,
+      })
+      @ApiResponse({
+        status: 200,
+        description: 'Users fetched successfully based on the query',
+      })
     @Get("/:id?")
     public getUsers(
         @Param() getUserParamDto: GetUsersParamDto,
