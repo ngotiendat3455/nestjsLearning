@@ -1,8 +1,8 @@
 import { IsArray, IsEnum, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateNested } from "class-validator";
 import { postStatus } from "../enums/post-status.enum";
 import { PostType } from "../enums/post-type.enum";
-import { CreatePostMetaOptionsDto } from "./create-post-meta-options.dto";
 import { Type } from "class-transformer";
+import { CreatePostMetaOptionsDto } from "src/meta-options/dtos/create-post-meta-options.dto";
 
 export class CreatePostDto {
     @IsString()
