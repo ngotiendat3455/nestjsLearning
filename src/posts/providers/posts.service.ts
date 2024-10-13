@@ -5,10 +5,12 @@ import { Post } from '../post.entity';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MetaOption } from 'src/meta-options/meta-options.entity';
+import { TagsService } from 'src/tags/providers/tags.service';
 
 @Injectable()
 export class PostsService {
     constructor(
+      private readonly tagsService: TagsService,
       /*
      * Injecting Users Service
      */
@@ -31,10 +33,11 @@ export class PostsService {
 
     public async create(createPostDto: CreatePostDto) {
       let author = await this.usersService.findOneById(createPostDto.authorId);
-
+      let tags = await this.tagsService.findMultipleTags(createPostDto.tags);
       let post = this.postReponsitory.create({
         ...createPostDto,
         author: author,
+        tags
       });
       console.log('post', post);
       return await this.postReponsitory.save(post);

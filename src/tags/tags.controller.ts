@@ -1,4 +1,4 @@
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { TagsService } from './providers/tags.service';
 import { CreateTagDto } from './dtos/create-tag.dto';
 
@@ -8,6 +8,7 @@ export class TagsController {
         private readonly tagService: TagsService
     ){}
 
+    @Post()
     public async create(@Body() createTagDto: CreateTagDto){
         return this.tagService.create(createTagDto);
     }

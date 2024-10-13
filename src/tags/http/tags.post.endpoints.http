@@ -1,0 +1,8 @@
+POST http://localhost:3000/tags
+Content-Type: application/json
+
+{
+  "name": "java",
+  "slug": "java",
+  "description": "All posts java"
+}

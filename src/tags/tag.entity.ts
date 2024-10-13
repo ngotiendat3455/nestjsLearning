@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedCol
 
 @Entity()
 export class Tag {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column({
