@@ -3,7 +3,10 @@ import { UserService } from 'src/users/providers/users.service';
 
 @Injectable()
 export class PostsService {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+      private readonly userService: UserService, 
+      
+    ) {}
     public findAll(userId: string) {
         // Users Service
         const user = this.userService.findOneById(+userId);
