@@ -22,7 +22,8 @@ export class PostsService {
     public async findAll(userId: string) {
         let posts = await this.postReponsitory.find({
           relations: {
-            metaOptions: true
+            metaOptions: true,
+            // author: true,
           }
         })
       return posts;
