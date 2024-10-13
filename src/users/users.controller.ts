@@ -3,6 +3,7 @@ import { UserService } from './providers/users.service';
 import { GetUsersParamDto } from './dtos/get-users-param.dto';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PatchUserDto } from './dtos/path-user-dto';
+import { CreateUserDto } from './dtos/create-user-dto';
 
 @ApiTags("users")
 @Controller('users')
@@ -44,8 +45,8 @@ export class UsersController {
     }
 
     @Post()
-    public createUsers() {
-        return 'You sent a post request to users endpoint'
+    public createUsers(@Body() createUserDto: CreateUserDto) {
+        return this.userService.createUser(createUserDto);
     }
 
     @Patch()
