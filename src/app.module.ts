@@ -19,11 +19,12 @@ import { MetaOptionsModule } from './meta-options/meta-options.module';
       inject: [],
       useFactory: () => ({
         type: 'postgres',
-        entities: [User],
+        // entities: [User],
         synchronize: true,
         port: 5432,
         username: 'postgres',
         password: '123456',
+        autoLoadEntities: true,
         host: 'localhost',
         database: 'nestjs-blog',
       }),
