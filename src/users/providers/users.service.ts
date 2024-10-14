@@ -4,6 +4,7 @@ import { GetUsersParamDto } from "../dtos/get-users-param.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../user.entity";
 import { Repository } from "typeorm";
+import { ConfigService } from "@nestjs/config";
 
 /**
  * Class to connect to Users table and perform business operations
@@ -14,6 +15,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private usersRepository: Repository<User>,
+        private readonly configService: ConfigService,
     ){
 
     }
@@ -25,6 +27,8 @@ export class UserService {
         limit: number,
         page: number
     ) {
+        const environment = this.configService.get<string>('S3_BUCKET');
+        console.log(environment);
         return [
             {
                 firstName: 'John',
@@ -47,6 +51,8 @@ export class UserService {
     }
 
     public async createUser(createUserDto: CreateUserDto) {
+        const environment = this.configService.get<string>('S3_BUCKET');
+        console.log(environment);
         const existingUser = await this.usersRepository.findOne({
             where: { email: createUserDto.email }
         })
