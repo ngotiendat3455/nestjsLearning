@@ -1,4 +1,6 @@
-export const appConfig = () => ({
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('appConfig', () => ({
     environment: process.env.NODE_ENV || 'production',
     database: {
       host: process.env.DATABASE_HOST || 'localhost',
@@ -9,4 +11,4 @@ export const appConfig = () => ({
       synchronize: process.env.DATABASE_SYNC === 'true' ? true : false,
       autoLoadEntities: process.env.DATABASE_AUTOLOAD === 'true' ? true : false,
     },
-  });
+  }));
