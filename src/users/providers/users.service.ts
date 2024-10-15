@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, RequestTimeoutException } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable, RequestTimeoutException } from "@nestjs/common";
 import { CreateUserDto } from "../dtos/create-user-dto";
 import { GetUsersParamDto } from "../dtos/get-users-param.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -29,16 +29,23 @@ export class UserService {
     ) {
         const environment = this.configService.get<string>('S3_BUCKET');
         console.log(environment);
-        return [
+        let loggenIn = false;
+        if (!loggenIn) {
+        throw new HttpException(
             {
-                firstName: 'John',
-                email: 'john@doe.com',
+            status: HttpStatus.MOVED_PERMANENTLY,
+            error: `The API endpoint doesn't exist anymore`,
+            fileName: 'users.service.ts',
+            lineNumber: 103,
             },
+            HttpStatus.MOVED_PERMANENTLY,
             {
-                firstName: 'Alice',
-                email: 'alice@doe.com',
-            }
-        ]
+            cause: new Error(),
+            description:
+                'Occured because the API endpoint was permanently moved to a new location',
+            },
+        );
+        }
     }
 
      /**
