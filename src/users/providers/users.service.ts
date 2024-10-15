@@ -3,7 +3,7 @@ import { CreateUserDto } from "../dtos/create-user-dto";
 import { GetUsersParamDto } from "../dtos/get-users-param.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../user.entity";
-import { Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { ConfigService } from "@nestjs/config";
 
 /**
@@ -16,8 +16,38 @@ export class UserService {
         @InjectRepository(User)
         private usersRepository: Repository<User>,
         private readonly configService: ConfigService,
+        /**
+         * inject the datasource
+         */
+        private dataSource: DataSource,
     ){
 
+    }
+    public async createMany(createUserDto: CreateUserDto[]) {
+        let newUsers: User[] = [];
+        // create query runner
+        const queryRunner = this.dataSource.createQueryRunner();
+        // connect db
+        await queryRunner.connect();
+        // start transaction
+        await queryRunner.startTransaction();
+
+        try {
+            for (let user of createUserDto) {
+                let newUser = queryRunner.manager.create(User, user);
+                let result = await queryRunner.manager.save(newUser);
+                newUsers.push(result);
+              }
+            // commit
+            await queryRunner.commitTransaction();
+        } catch(error) {
+            //error when excute
+            await queryRunner.rollbackTransaction();
+        } finally {
+            await queryRunner.release();
+        }
+
+        return newUsers;
     }
     /**
    * The method to get all the users from the database
