@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../user.entity";
 import { DataSource, Repository } from "typeorm";
 import { ConfigService } from "@nestjs/config";
+import { FindOneUserByEmailProvider } from "./find-one-user-by-email.provider";
 
 /**
  * Class to connect to Users table and perform business operations
@@ -20,6 +21,10 @@ export class UserService {
          * inject the datasource
          */
         private dataSource: DataSource,
+        /**
+         * Inject findOneUserByEmailProvider
+         */
+        private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
     ){
 
     }
@@ -141,5 +146,10 @@ export class UserService {
         }
 
         return user;
+    }
+
+    // Finds one user by email
+    public async findOneByEmail(email: string) {
+        return await this.findOneUserByEmailProvider.findOneByEmail(email);
     }
 }
