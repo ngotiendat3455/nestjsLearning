@@ -1,0 +1,18 @@
+POST http://localhost:3000/users/create-many
+Content-Type: application/json
+
+{
+"users": [
+    {
+      "firstName": "Mark",
+      "lastName": "Doe",
+      "password": "Password123#"
+    },
+    {
+      "firstName": "Tom",
+      "lastName": "Doe",
+      "email": "tom@doe.com",
+      "password": "Password123#"
+    }
+  ]
+}

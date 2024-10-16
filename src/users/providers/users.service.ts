@@ -6,6 +6,7 @@ import { User } from "../user.entity";
 import { DataSource, Repository } from "typeorm";
 import { ConfigService } from "@nestjs/config";
 import { FindOneUserByEmailProvider } from "./find-one-user-by-email.provider";
+import { CreateManyUsersDto } from "../dtos/create-many-users.dto";
 
 /**
  * Class to connect to Users table and perform business operations
@@ -28,7 +29,7 @@ export class UserService {
     ){
 
     }
-    public async createMany(createUserDto: CreateUserDto[]) {
+    public async createMany(createUserDto: CreateManyUsersDto) {
         let newUsers: User[] = [];
         // create query runner
         const queryRunner = this.dataSource.createQueryRunner();
@@ -38,7 +39,7 @@ export class UserService {
         await queryRunner.startTransaction();
 
         try {
-            for (let user of createUserDto) {
+            for (let user of createUserDto.users) {
                 let newUser = queryRunner.manager.create(User, user);
                 let result = await queryRunner.manager.save(newUser);
                 newUsers.push(result);
