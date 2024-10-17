@@ -17,7 +17,7 @@ import jwtConfig from 'src/config/jwt.config';
     }, 
   ],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, HashingProvider],
   imports: [
     forwardRef(() => UsersModule),
     ConfigModule.forFeature(jwtConfig),

@@ -30,9 +30,10 @@ public async signIn(signInDto: SignInDto) {
     // throw exception if user not found
     let isEqual: boolean = false;
     // compare password to hash
-
+    console.log('user.password', user.password);
+    console.log('signInDto.password', signInDto.password);
     try {
-        isEqual = await this.hashingProvider.comparePassword(user.password, signInDto.password)
+        isEqual = await this.hashingProvider.comparePassword(signInDto.password, user.password)
     } catch(error) {
         throw new RequestTimeoutException(error, {
             description: 'Could not compare the password',
