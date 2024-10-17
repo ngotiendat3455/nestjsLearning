@@ -2,6 +2,9 @@ import { forwardRef, Inject, Injectable, RequestTimeoutException, UnauthorizedEx
 import { UserService } from 'src/users/providers/users.service';
 import { HashingProvider } from './hashing.provider';
 import { SignInDto } from '../dto/singin.dto';
+import jwtConfig from 'src/config/jwt.config';
+import { ConfigType } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class SignInProvider {
@@ -9,6 +12,12 @@ export class SignInProvider {
         // Injecting UserService
         @Inject(forwardRef(() => UserService))
         private readonly usersService: UserService,
+        @Inject(jwtConfig.KEY)
+        private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+          /**
+         * Inject jwtService
+         */
+        private readonly jwtService: JwtService,
         /**
          * Inject the hashingProvider
          */
@@ -34,7 +43,20 @@ public async signIn(signInDto: SignInDto) {
       throw new UnauthorizedException('Password does not match');
     }
 
+    // Generate access token
+    const accessToken = await this.jwtService.signAsync(
+        {
+          sub: user.id,
+          email: user.email,
+        },
+        {
+          audience: this.jwtConfiguration.audience,
+          issuer: this.jwtConfiguration.issuer,
+          secret: this.jwtConfiguration.secret,
+          expiresIn: this.jwtConfiguration.accessTokenTtl,
+        },
+      );
     // Send confirmation
-    return true;
+    return { accessToken };
     }
 }

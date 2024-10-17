@@ -27,7 +27,7 @@ export class PostsService {
       // private readonly metaOptionsRepository: Repository<MetaOption>,
     ) {}
 
-    public async findAll(userId: string, postQuery: GetPostsDto) {
+    public async findAll(postQuery: GetPostsDto) {
         let posts = await this.paginationProvider.paginationQuery(postQuery, this.postReponsitory);
       return posts;
     }

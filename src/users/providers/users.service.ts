@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, RequestTimeoutException } from "@nestjs/common";
+import { BadRequestException, forwardRef, HttpException, HttpStatus, Inject, Injectable, RequestTimeoutException } from "@nestjs/common";
 import { CreateUserDto } from "../dtos/create-user-dto";
 import { GetUsersParamDto } from "../dtos/get-users-param.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -7,6 +7,7 @@ import { DataSource, Repository } from "typeorm";
 import { ConfigService } from "@nestjs/config";
 import { FindOneUserByEmailProvider } from "./find-one-user-by-email.provider";
 import { CreateManyUsersDto } from "../dtos/create-many-users.dto";
+import { HashingProvider } from "src/auth/providers/hashing.provider";
 
 /**
  * Class to connect to Users table and perform business operations
@@ -26,6 +27,11 @@ export class UserService {
          * Inject findOneUserByEmailProvider
          */
         private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
+        /**
+         * Inject BCrypt Provider
+         */
+        @Inject(forwardRef(() => HashingProvider))
+        private readonly hashingProvider: HashingProvider,
     ){
 
     }
@@ -134,7 +140,10 @@ export class UserService {
          * handle exception if user exists later
          */
 
-        let user = this.usersRepository.create(createUserDto);
+        let user = this.usersRepository.create({
+            ...createUserDto,
+            password: await this.hashingProvider.hashPassword(createUserDto.password),
+        });
         try {
             user = await this.usersRepository.save(user);
         } catch (error) {

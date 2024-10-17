@@ -17,7 +17,7 @@ export class PostsController {
         @Query() postQuery: GetPostsDto
     ) {
         console.log(postQuery);
-        return this.postService.findAll(userId)
+        return this.postService.findAll(postQuery)
     }
 
     @ApiOperation({
