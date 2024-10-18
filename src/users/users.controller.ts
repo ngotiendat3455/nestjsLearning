@@ -6,6 +6,8 @@ import { PatchUserDto } from './dtos/path-user-dto';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { CreateManyUsersDto } from './dtos/create-many-users.dto';
 import { AccessTokenGuard } from 'src/auth/guards/access-token/access-token.guard';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enum/auth-type.enum';
 
 @ApiTags("users")
 @Controller('users')
@@ -47,6 +49,7 @@ export class UsersController {
     }
 
     @Post()
+    @Auth(AuthType.Bearer, AuthType.None)
     public createUsers(@Body() createUserDto: CreateUserDto) {
         return this.userService.createUser(createUserDto);
     }
@@ -56,7 +59,7 @@ export class UsersController {
         return patchUserDto;
     }
 
-    @UseGuards(AccessTokenGuard)
+    // @UseGuards(AccessTokenGuard)
     @Post('create-many')
     public createManyUser(@Body() createManyUsersDto: CreateManyUsersDto){
       return this.userService.createMany(createManyUsersDto)

@@ -10,23 +10,22 @@ import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from 'src/config/jwt.config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from 'src/auth/guards/access-token/access-token.guard';
+import { AuthenticationGuard } from 'src/auth/guards/authentication/authentication.guard';
 
 @Module({
   controllers: [UsersController],
   providers: [
     UserService, 
     FindOneUserByEmailProvider,
-    {
-      provide: APP_GUARD,
-      useClass: AccessTokenGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthenticationGuard,
+    // },
   ],
   exports: [UserService],
   imports: [
     forwardRef(() => AuthModule), 
     TypeOrmModule.forFeature([User]),
-    ConfigModule.forFeature(jwtConfig),
-    JwtModule.registerAsync(jwtConfig.asProvider()),
   ],
 })
 export class UsersModule {}
