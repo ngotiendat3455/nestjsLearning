@@ -1,17 +1,18 @@
 POST http://localhost:3000/users/create-many
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoibWFya0Bkb2UuY29tIiwiaWF0IjoxNzI5MjcyNTg1LCJleHAiOjE3MjkyNzYxODUsImF1ZCI6ImxvY2FsaG9zdCIsImlzcyI6ImxvY2FsaG9zdCJ9.dOyn02W2qAfoBkCFVW-CPYFsib03dxMSVpw6q91xEX8
 {
 "users": [
     {
-      "firstName": "Mark",
-      "lastName": "Doe",
+      "firstName": "Mark11111111",
+      "lastName": "Doe1111",
+      "email": "tom111121@doe.com",
       "password": "Password123#"
     },
     {
-      "firstName": "Tom",
-      "lastName": "Doe",
-      "email": "tom@doe.com",
+      "firstName": "Tom111111",
+      "lastName": "Doe1111111",
+      "email": "tom11111@doe.com",
       "password": "Password123#"
     }
   ]
