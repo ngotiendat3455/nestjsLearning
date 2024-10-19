@@ -5,6 +5,7 @@ import { SignInDto } from '../dto/singin.dto';
 import jwtConfig from 'src/config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ActiveUserData } from '../interfaces/active-user-data.interface';
 
 @Injectable()
 export class SignInProvider {
@@ -49,7 +50,7 @@ public async signIn(signInDto: SignInDto) {
         {
           sub: user.id,
           email: user.email,
-        },
+        } as ActiveUserData,
         {
           audience: this.jwtConfiguration.audience,
           issuer: this.jwtConfiguration.issuer,

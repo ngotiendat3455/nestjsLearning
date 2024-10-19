@@ -63,10 +63,10 @@ export class Post {
     featuredImageUrl: string;
 
     @Column({
-        type: 'timestamp', // 'datetime' in mysql
-        nullable: true,
+      type: 'timestamp', // 'datetime' in mysql
+      nullable: true,
     })
-    publishOn: Date;
+    publishOn?: Date;
 
     // tags: string[];
 
