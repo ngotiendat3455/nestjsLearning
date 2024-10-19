@@ -11,12 +11,13 @@ import jwtConfig from 'src/config/jwt.config';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from 'src/auth/guards/access-token/access-token.guard';
 import { AuthenticationGuard } from 'src/auth/guards/authentication/authentication.guard';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
 
 @Module({
   controllers: [UsersController],
   providers: [
     UserService, 
-    FindOneUserByEmailProvider,
+    FindOneUserByEmailProvider, FindOneByGoogleIdProvider,
     // {
     //   provide: APP_GUARD,
     //   useClass: AuthenticationGuard,

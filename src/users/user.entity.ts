@@ -40,7 +40,9 @@ export class User {
     posts: Post[];
 
     @Column({
-        type: 'varchar'
+        type: 'varchar',
+        length: 512,
+        nullable: true,
     })
     googleId: string
 }
