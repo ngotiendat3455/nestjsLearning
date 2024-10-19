@@ -38,4 +38,9 @@ export class User {
 
     @OneToMany(() => Post, (post) => post.author)
     posts: Post[];
+
+    @Column({
+        type: 'varchar'
+    })
+    googleId: string
 }
