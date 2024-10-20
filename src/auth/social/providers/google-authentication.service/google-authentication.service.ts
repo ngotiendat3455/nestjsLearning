@@ -31,9 +31,19 @@ export class GoogleAuthenticationService implements OnModuleInit{
         const loginToken = await this.oauthClient.verifyIdToken({
             idToken: googleTOkenDto.token
         })
+        console.log('login token', loginToken);
         // extract the payload from the google token 
-        const { email, sub: googleId} = loginToken.getPayload();
+        const { 
+            email, 
+            sub: googleId,
+            given_name: firstName,
+            family_name: lastName,
+        } = loginToken.getPayload();
         // if user id found generate the tokens 
+        console.log(firstName);
+        console.log(lastName);
+        console.log(email);
+        console.log(googleId);
         const user = await this.userService.findOneByGoogleId(googleId);
         if (user) {
             return await this.generateToken.generateToken(user);
