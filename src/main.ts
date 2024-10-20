@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'aws-sdk';
+import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -40,6 +41,10 @@ SwaggerModule.setup('api', app, document)
 //     },
 //     region: configService.get<string>('appConfig.awsRegion'),
 //   });
+  // enable cors
+  app.enableCors();
+  // add global interceptor
+  // app.useGlobalInterceptors(new DataResponseInterceptor());
   await app.listen(3000);
 }
 
