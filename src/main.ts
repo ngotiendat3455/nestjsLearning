@@ -31,16 +31,16 @@ SwaggerModule.setup('api', app, document)
 /*
    * Setup AWS SDK used for uploadingg files to AWS S3
    * */
-// const configService = app.get(ConfigService);
-//   config.update({
-//     credentials: {
-//       accessKeyId: configService.get<string>('appConfig.awsAccessKeyId'),
-//       secretAccessKey: configService.get<string>(
-//         'appConfig.awsSecretAccessKey',
-//       ),
-//     },
-//     region: configService.get<string>('appConfig.awsRegion'),
-//   });
+const configService = app.get(ConfigService);
+  config.update({
+    credentials: {
+      accessKeyId: configService.get<string>('appConfig.awsAccessKeyId'),
+      secretAccessKey: configService.get<string>(
+        'appConfig.awsSecretAccessKey',
+      ),
+    },
+    region: configService.get<string>('appConfig.awsRegion'),
+  });
   // enable cors
   app.enableCors();
   // add global interceptor
